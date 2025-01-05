@@ -35,5 +35,4 @@ jobs:
       run: mvn compile jib:dockerBuild
 
     - name: Push image to GitHub Container Registry
-      run: docker push ghcr.io/granja-caimito/youtube-pubsub
-      
+      run: docker push ghcr.io/granja-caimito/youtube-pubsub:${{ github.run_number }}
