@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class YouTubeEndpoint {
   private static final Logger LOGGER = LoggerFactory.getLogger(YouTubeEndpoint.class);
 
-  @GetMapping("/youtube")
+  @GetMapping
   public String handleSubscriptionVerification(
       @RequestParam("hub.challenge") String hubChallenge,
       @RequestParam("hub.mode") String hubMode,
@@ -25,5 +25,4 @@ public class YouTubeEndpoint {
     // Return the hub.challenge value as plain text in the response
     return hubChallenge;
   }
-
 }
