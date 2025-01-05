@@ -32,7 +32,7 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
   
     - name: Build with JIB
-      run: mvn compile jib:dockerBuild
+      run: mvn compile jib:dockerBuild -Dimage=ghcr.io/granja-caimito/youtube-pubsub:${{ github.run_number }}
 
     - name: Push image to GitHub Container Registry
       run: docker push ghcr.io/granja-caimito/youtube-pubsub:${{ github.run_number }}
