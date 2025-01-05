@@ -8,21 +8,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/youtube")
+@RequestMapping({ "/youtube", "/youtube/" })
 public class YouTubeEndpoint {
   private static final Logger LOGGER = LoggerFactory.getLogger(YouTubeEndpoint.class);
 
   @GetMapping
-  public String handleSubscriptionVerification(
-      @RequestParam("hub.challenge") String hubChallenge,
-      @RequestParam("hub.mode") String hubMode,
-      @RequestParam(value = "hub.lease_seconds", required = false) String hubLeaseSeconds) {
+  public String handleYouTubeRequest(
+      @RequestParam("hub.topic") String topic,
+      @RequestParam("hub.challenge") String challenge,
+      @RequestParam("hub.mode") String mode,
+      @RequestParam("hub.lease_seconds") int leaseSeconds) {
 
-    // Log the incoming parameters for debugging (optional)
-    LOGGER
-        .info("hub.mode: " + hubMode + ", hub.challenge: " + hubChallenge + ", hub.lease_seconds: " + hubLeaseSeconds);
+    LOGGER.info("Received YouTube Webhook Request:");
+    LOGGER.info("Topic: {}", topic);
+    LOGGER.info("Mode: {}", mode);
+    LOGGER.info("Lease Seconds: {}", leaseSeconds);
 
-    // Return the hub.challenge value as plain text in the response
-    return hubChallenge;
+    // Respond with the hub.challenge as required by YouTube
+    return challenge;
   }
 }
