@@ -15,16 +15,16 @@ public class Publisher {
 
   @EventListener
   public void handleNewFeedEntry(NewFeedEntryEvent event) {
-    LOGGER.info("New feed entry: " + event.getSource());
+    VideoEntry entry = (VideoEntry) event.getSource();
+    LOGGER.debug("New feed entry: {}", entry.getLink());
 
     postsRepository.findByLink(((VideoEntry) event.getSource()).getLink())
         .ifPresentOrElse(
-            post -> LOGGER.info("Post already exists: " + post),
-            () -> savePost(event));
+            post -> LOGGER.info("Post for {} already exists: ", post.getLink()),
+            () -> savePost(entry));
   }
 
-  private void savePost(NewFeedEntryEvent event) {
-    VideoEntry entry = (VideoEntry) event.getSource();
+  private void savePost(VideoEntry entry) {
     LOGGER.info("Saving post: " + entry.getLink());
     PostEntity post = new PostEntity(entry.getLink(), MediaTarget.TWITTER, entry.getPublished());
     postsRepository.save(post);
